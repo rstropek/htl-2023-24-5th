@@ -1,12 +1,6 @@
-<form>
-  <label>Number to display:
-    <input type="number" [formControl]="numberInput" />
-  </label>
-</form>
-
-<svg [attr.width]="192 * 4" height="320" [attr.viewBox]="'0 0 ' + (10 * 4) + ' 18'">
+<svg [attr.width]="48 * 4" height="80" [attr.viewBox]="'0 0 ' + (10 * 4 + 3) + ' 18'">
   <g app-seven-segment-digit [digit]="fourth()"></g>
-  <g app-seven-segment-digit [digit]="third()" transform="translate(10 0)"></g>
-  <g app-seven-segment-digit [digit]="second()" transform="translate(20 0)"></g>
-  <g app-seven-segment-digit [digit]="first()" transform="translate(30 0)"></g>
+  <g app-seven-segment-digit [digit]="third()" transform="translate(11 0)"></g>
+  <g app-seven-segment-digit [digit]="second()" transform="translate(22 0)"></g>
+  <g app-seven-segment-digit [digit]="first()" transform="translate(33 0)"></g>
 </svg>

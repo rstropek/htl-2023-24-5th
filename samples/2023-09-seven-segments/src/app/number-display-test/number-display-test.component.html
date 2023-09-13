@@ -1,0 +1,15 @@
+<!-- Let the user enter a number -->
+<form>
+  <label>Number to display:
+    <!-- Not how we use Angular data binding to bind the input to the FormControl -->
+    <input type="number" [formControl]="numberInput" />
+  </label>
+</form>
+
+<!-- Display the number using the regular display -->
+<h2>Regular Display</h2>
+<app-regular-number [number]="(numberInput.valueChanges | async) ?? 0"></app-regular-number>
+
+<!-- Display the number using the seven segments display -->
+<h2>Seven Segments Display</h2>
+<app-seven-segment-number [number]="(numberInput.valueChanges | async) ?? 0"></app-seven-segment-number>

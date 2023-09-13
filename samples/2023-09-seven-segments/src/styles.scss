@@ -1,5 +1,13 @@
 :root {
+  --rd-color: red;
+  --rd-font-family: 'Courier New', Courier, monospace;
+  --rd-font-size: 85px;
+
   --ssd-segment-fill: red;
-  --ssd-separator-stroke: #FFFFFF;
+  --ssd-separator-stroke: #EEEEEE;
   --ssd-separator-width: 0.25px;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
