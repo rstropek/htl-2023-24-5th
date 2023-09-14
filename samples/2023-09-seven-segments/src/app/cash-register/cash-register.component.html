@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="products">
+    <div *ngFor="let o of offerings.offerings" class="product"
+      (click)="offerings.addToCart(o)">
+      <img [src]="o.imgUrl" [alt]="o.name" />
+      {{ o.name }}
+    </div>
+  </div>
+  <div class="receipt">
+    <ng-container *ngFor="let i of offerings.shoppingCart()">
+      <div>{{ i.name }}</div>
+      <div class="price">{{ i.priceEur | number: '1.2' }}</div>
+    </ng-container>
+  </div>
+  <div class="total">
+    <app-seven-segment-number [number]="offerings.totalPriceEur()"></app-seven-segment-number>
+  </div>
+</div>
