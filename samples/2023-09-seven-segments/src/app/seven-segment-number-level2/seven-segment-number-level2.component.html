@@ -1,0 +1,10 @@
+<!-- We need to calculate the size of the
+  Angular control base on the number of digits -->
+<svg [attr.width]="51 * _numberOfDigits()" height="80"
+  [attr.viewBox]="'0 0 ' + (10 * _numberOfDigits() + 3) + ' 18'">
+  <!-- We repeat the digits using ngFor. We also must calculate
+    the position of the digit based on the current index. -->
+  <g *ngFor="let d of _digits(); index as i"
+    app-seven-segment-digit [digit]="getDigit(_numberOfDigits() - i - 1)()"
+    [attr.transform]="'translate(' + 11 * i + ' 0)'"></g>
+</svg>

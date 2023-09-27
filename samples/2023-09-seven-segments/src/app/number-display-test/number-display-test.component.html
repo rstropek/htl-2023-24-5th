@@ -1,9 +1,11 @@
-<!-- Let the user enter a number -->
-<form>
-  <label>Number to display:
-    <!-- Not how we use Angular data binding to bind the input to the FormControl -->
-    <input type="number" [formControl]="numberInput" />
-  </label>
+<form class="form-container">
+    <!-- Let the user enter a number -->
+    <label for="number">Number to display:</label>
+    <input id="number" type="number" [formControl]="numberInput" />
+
+    <!-- Let the user choose the number of digits -->
+    <label for="digits">Number of digits:</label>
+    <input id="digits" type="number" [formControl]="numberOfDigitsInput" />
 </form>
 
 <!-- Display the number using the regular display -->
@@ -13,3 +15,9 @@
 <!-- Display the number using the seven segments display -->
 <h2>Seven Segments Display</h2>
 <app-seven-segment-number [number]="(numberInput.valueChanges | async) ?? 0"></app-seven-segment-number>
+
+<!-- Display the number using the seven segments display (Level 2) -->
+<h2>Seven Segments Display (Level 2)</h2>
+<app-seven-segment-number-level2
+  [number]="(numberInput.valueChanges | async) ?? 0"
+  [numberOfDigits]="(numberOfDigitsInput.valueChanges | async) ?? 4"></app-seven-segment-number-level2>
