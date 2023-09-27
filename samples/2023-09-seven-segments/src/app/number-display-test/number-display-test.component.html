@@ -6,6 +6,10 @@
     <!-- Let the user choose the number of digits -->
     <label for="digits">Number of digits:</label>
     <input id="digits" type="number" [formControl]="numberOfDigitsInput" />
+
+    <!-- Let the user choose the precision -->
+    <label for="precision">Precision:</label>
+    <input id="precision" type="number" [formControl]="precision" />
 </form>
 
 <!-- Display the number using the regular display -->
@@ -21,3 +25,15 @@
 <app-seven-segment-number-level2
   [number]="(numberInput.valueChanges | async) ?? 0"
   [numberOfDigits]="(numberOfDigitsInput.valueChanges | async) ?? 4"></app-seven-segment-number-level2>
+
+<!-- Display the number using the seven segments display (Level 2) -->
+<h2>Seven Segments Display (Level 3)</h2>
+<p>
+  Note that the number to display is divided by 100 for the following display
+  to get some digits behind the comma. We also display two digits more to
+  have a little bit more space for displaying some digits after the comma.
+</p>
+<app-seven-segment-number-level3
+  [number]="((numberInput.valueChanges | async) ?? 0) / 100"
+  [numberOfDigits]="((numberOfDigitsInput.valueChanges | async) ?? 4) + 2"
+  [precision]="(precision.valueChanges | async) ?? 2"></app-seven-segment-number-level3>

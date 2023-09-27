@@ -54,7 +54,12 @@ export class SevenSegmentNumberComponentLevel2 {
     return computed(() => {
       // We have to compute the digit on the given number.
       let digit = this._number() / Math.pow(10, index);
-      if (index > 0 && digit < 1) { return -1; }
+      if (index > 0 && digit < 1) {
+        // We display a zero only if we were asked for the
+        // first digit. This is necessary to avoid printing "0001"
+        // when the value is 1.
+        return -1;
+      }
       return Math.floor(digit) % 10;
     });
   }

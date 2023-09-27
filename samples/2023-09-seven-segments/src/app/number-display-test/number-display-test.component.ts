@@ -4,6 +4,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { RegularNumberComponent } from '../regular-number/regular-number.component';
 import { SevenSegmentNumberComponent } from '../seven-segment-number/seven-segment-number.component';
 import { SevenSegmentNumberComponentLevel2 } from '../seven-segment-number-level2/seven-segment-number-level2.component';
+import { SevenSegmentNumberComponentLevel3 } from '../seven-segment-number-level3/seven-segment-number-level3.component';
 
 /**
  * Component used to test the RegularNumberComponent and the SevenSegmentNumberComponent.
@@ -17,6 +18,7 @@ import { SevenSegmentNumberComponentLevel2 } from '../seven-segment-number-level
     RegularNumberComponent,
     SevenSegmentNumberComponent,
     SevenSegmentNumberComponentLevel2,
+    SevenSegmentNumberComponentLevel3
   ],
   templateUrl: './number-display-test.component.html',
   styleUrls: ['./number-display-test.component.scss'],
@@ -33,4 +35,5 @@ export class NumberDisplayTestComponent {
   // For details see https://angular.io/api/forms/FormControl.
   numberInput = new FormControl(0);
   numberOfDigitsInput = new FormControl(4);
+  precision = new FormControl(2);
 }

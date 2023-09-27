@@ -1,0 +1,10 @@
+<svg [attr.width]="55 * _numberOfDigits()" height="80"
+  [attr.viewBox]="'0 0 ' + (12 * _numberOfDigits() + 3) + ' 18'">
+    <!-- Note that we group each digit with the corresponding comma -->
+    <g *ngFor="let d of _digits(); index as i"
+       [attr.transform]="'translate(' + 12 * i + ' 0)'">
+      <g app-seven-segment-digit [digit]="getDigit(_numberOfDigits() - i - 1)()"></g>
+      <!-- Only the comma at the correct index is filled -->
+      <svg:circle [class.filled]="_precision() === _numberOfDigits() - i - 1" cx="11" cy="17" r="1" />
+    </g>
+</svg>

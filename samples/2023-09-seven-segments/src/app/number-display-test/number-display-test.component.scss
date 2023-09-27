@@ -3,15 +3,19 @@
   display: grid;
   // Create two columns, one for label and one for input
   grid-template-columns: max-content auto;
+
+  input {
+     // Limit the width of the input
+    max-width: 100px;
+  }
+
+  label {
+    // Aligns the text to the right in the label column
+    text-align: right;
+    margin-right: 5px;
+  }
 }
 
-input {
-   // Limit the width of the input
-  max-width: 100px;
-}
-
-label {
-  // Aligns the text to the right in the label column
-  text-align: right;
-  margin-right: 5px;
+p {
+  max-width: 500px;
 }
