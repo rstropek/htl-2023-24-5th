@@ -5,6 +5,7 @@ import { RegularNumberComponent } from '../regular-number/regular-number.compone
 import { SevenSegmentNumberComponent } from '../seven-segment-number/seven-segment-number.component';
 import { SevenSegmentNumberComponentLevel2 } from '../seven-segment-number-level2/seven-segment-number-level2.component';
 import { SevenSegmentNumberComponentLevel3 } from '../seven-segment-number-level3/seven-segment-number-level3.component';
+import { SixteenSegmentTextComponent } from '../sixteen-segment-text/sixteen-segment-text.component';
 
 /**
  * Component used to test the RegularNumberComponent and the SevenSegmentNumberComponent.
@@ -18,7 +19,8 @@ import { SevenSegmentNumberComponentLevel3 } from '../seven-segment-number-level
     RegularNumberComponent,
     SevenSegmentNumberComponent,
     SevenSegmentNumberComponentLevel2,
-    SevenSegmentNumberComponentLevel3
+    SevenSegmentNumberComponentLevel3,
+    SixteenSegmentTextComponent
   ],
   templateUrl: './number-display-test.component.html',
   styleUrls: ['./number-display-test.component.scss'],
@@ -36,4 +38,5 @@ export class NumberDisplayTestComponent {
   numberInput = new FormControl(0);
   numberOfDigitsInput = new FormControl(4);
   precision = new FormControl(2);
+  sixteenSegmentsDisplayText = new FormControl('');
 }

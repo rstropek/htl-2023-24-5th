@@ -1,0 +1,16 @@
+path {
+  stroke: var(--ssd-separator-stroke);
+  stroke-width: 2px;
+
+  &.filled {
+    fill: var(--ssd-segment-fill);
+  }
+
+  &:not(.filled) {
+    fill: none;
+  }
+}
+
+svg {
+  margin-left: 10px;
+}

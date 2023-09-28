@@ -10,6 +10,10 @@
     <!-- Let the user choose the precision -->
     <label for="precision">Precision:</label>
     <input id="precision" type="number" [formControl]="precision" />
+
+    <!-- Let the user enter text for the sixteen segments display -->
+    <label for="sixteenSegmentsDisplay">16 segments display:</label>
+    <input id="sixteenSegmentsDisplay" type="text" [formControl]="sixteenSegmentsDisplayText" />
 </form>
 
 <!-- Display the number using the regular display -->
@@ -26,7 +30,7 @@
   [number]="(numberInput.valueChanges | async) ?? 0"
   [numberOfDigits]="(numberOfDigitsInput.valueChanges | async) ?? 4"></app-seven-segment-number-level2>
 
-<!-- Display the number using the seven segments display (Level 2) -->
+<!-- Display the number using the seven segments display (Level 3) -->
 <h2>Seven Segments Display (Level 3)</h2>
 <p>
   Note that the number to display is divided by 100 for the following display
@@ -37,3 +41,8 @@
   [number]="((numberInput.valueChanges | async) ?? 0) / 100"
   [numberOfDigits]="((numberOfDigitsInput.valueChanges | async) ?? 4) + 2"
   [precision]="(precision.valueChanges | async) ?? 2"></app-seven-segment-number-level3>
+
+<!-- Display text using the sixteen segments display (Level 4) -->
+<!-- Supported chars: https://powerusers.microsoft.com/t5/image/serverpage/image-id/341762iFCD10BF07C0147AD/image-size/medium/is-moderation-mode/true?v=v2&px=400 -->
+<h2>Sixteen Segments Display (Level 4)</h2>
+<app-sixteen-segment-text [text]="(sixteenSegmentsDisplayText.valueChanges | async) ?? ''" />
