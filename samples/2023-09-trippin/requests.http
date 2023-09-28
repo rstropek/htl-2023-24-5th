@@ -1,0 +1,42 @@
+# Get your own key by navigating to https://services.odata.org/TripPinRESTierService.
+# Copy your key from the address bar.
+@key = S(m5bfpztyapemay4raovtk1wi)
+
+###
+# Search for people
+# @name people
+GET https://services.odata.org/TripPinRESTierService/({{key}})/People
+    ?$filter=contains(FirstName, 'Russel') or contains(LastName, 'Russel') or (MiddleName ne null and contains(MiddleName, 'Russel'))
+    &$select=UserName,FirstName,MiddleName,LastName,Age
+
+###
+# Get details of a single person
+GET https://services.odata.org/TripPinRESTierService/({{key}})/People('{{people.response.body.$.value[0].UserName}}')
+
+###
+# Search for trips of a single user
+GET https://services.odata.org/TripPinRESTierService/({{key}})/People('{{people.response.body.$.value[0].UserName}}')/Trips
+    ?$filter=contains(Name, 'Leonding') or contains(Description, 'Leonding')
+    &$select=TripId,Name,Budget,Description,Tags,StartsAt,EndsAt
+    &$orderby=EndsAt desc
+
+###
+# Create a trip for a user
+# Unfortunately, the TripId is not assigned automatically by the service. Just use a random
+# value greater than 9000. If you get a 409 (Conflict), select a different random number and retry.
+POST https://services.odata.org/TripPinRESTierService/({{key}})/People('{{people.response.body.$.value[0].UserName}}')/Trips
+Content-Type: application/json
+
+{
+    "TripId": 9999,
+    "ShareId": "fc37f381-4413-4827-a07a-f11d9baa5305",
+    "Name": "Trip to Leonding",
+    "Budget": 1000,
+    "Description": "Trip from Linz to Leonding",
+    "Tags": [
+        "school",
+        "learning"
+    ],
+    "StartsAt": "2023-01-01T00:00:00Z",
+    "EndsAt": "2023-01-04T00:00:00Z"
+}
