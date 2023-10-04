@@ -1,0 +1,32 @@
+<h2>People</h2>
+
+<form>
+  <label for="filter">Name filter:</label>
+  <input type="text" id="filter" placeholder="Enter name filter here..." [formControl]="nameFilter" />
+</form>
+
+<ng-container *ngIf="{ people: data$ | async } as vm">
+  <div *ngIf="!httpError && vm.people; else loading" class="people">
+    <div class="header">
+      <div>User Name</div>
+      <div>First Name</div>
+      <div>Middle Name</div>
+      <div>Last Name</div>
+      <div>Age</div>
+    </div>
+    <ng-container *ngFor="let p of vm.people.value">
+      <div><a [routerLink]="p.UserName + '/trips'">{{ p.UserName }}</a></div>
+      <div>{{ p.FirstName }}</div>
+      <div>{{ p.MiddleName }}</div>
+      <div>{{ p.LastName }}</div>
+      <div>{{ p.Age }}</div>
+    </ng-container>
+  </div>
+  <p *ngIf="httpError" class="error">
+    {{ httpError.message }}
+  </p>
+  <ng-template #loading>
+    <p *ngIf="!httpError">Loading...</p>
+  </ng-template>
+</ng-container>
+

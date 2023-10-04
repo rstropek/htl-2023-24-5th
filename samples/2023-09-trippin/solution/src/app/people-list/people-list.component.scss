@@ -1,0 +1,25 @@
+form {
+  margin-bottom: 20px;
+
+  label {
+    margin-right: 5px;
+  }
+}
+
+.people {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+
+  div {
+    padding: 10px;
+  }
+
+  .header {
+    font-weight: bold;
+    display: contents;
+
+    div {
+      background-color: lightgray;
+    }
+  }
+}

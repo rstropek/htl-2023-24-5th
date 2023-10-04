@@ -1,0 +1,21 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  width: 100%;
+  padding: 10px;
+}
+
+* {
+  margin: 0; // Remove default margin
+}
+
+app-root {
+  display: block;
+  margin-left: auto;
+  max-width: 1024px;
+  margin-right: auto;
+}
+
+h1, h2 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
