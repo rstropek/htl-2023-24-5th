@@ -14,6 +14,12 @@ GET https://services.odata.org/TripPinRESTierService/({{key}})/People
 GET https://services.odata.org/TripPinRESTierService/({{key}})/People('{{people.response.body.$.value[0].UserName}}')
 
 ###
+# Search for airports of a single user
+GET https://services.odata.org/TripPinRESTierService/({{key}})/Airports
+    ?$filter=contains(Name, 'San')
+    &$select=Name,IataCode,Location
+
+###
 # Search for trips of a single user
 GET https://services.odata.org/TripPinRESTierService/({{key}})/People('{{people.response.body.$.value[0].UserName}}')/Trips
     ?$filter=contains(Name, 'Leonding') or contains(Description, 'Leonding')
