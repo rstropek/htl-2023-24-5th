@@ -5,8 +5,8 @@
   <input type="text" id="filter" placeholder="Enter name filter here..." [formControl]="nameFilter" />
 </form>
 
-<ng-container *ngIf="{ people: data$ | async } as vm">
-  <div *ngIf="!httpError && vm.people; else loading" class="people">
+<ng-container *ngIf="{ people: data$ | async, err: httpError$ | async } as vm">
+  <div *ngIf="!vm.err && vm.people; else loading" class="result-grid">
     <div class="header">
       <div>User Name</div>
       <div>First Name</div>
@@ -22,11 +22,11 @@
       <div>{{ p.Age }}</div>
     </ng-container>
   </div>
-  <p *ngIf="httpError" class="error">
-    {{ httpError.message }}
+  <p *ngIf="vm.err" class="error">
+    {{ vm.err }}
   </p>
   <ng-template #loading>
-    <p *ngIf="!httpError">Loading...</p>
+    <p *ngIf="!vm.err">Loading...</p>
   </ng-template>
 </ng-container>
 

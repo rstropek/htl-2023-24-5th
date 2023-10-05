@@ -19,3 +19,21 @@ h1, h2 {
   margin-top: 20px;
   margin-bottom: 10px;
 }
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+
+  div {
+    padding: 10px;
+  }
+
+  .header {
+    font-weight: bold;
+    display: contents;
+
+    div {
+      background-color: lightgray;
+    }
+  }
+}

@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http'
 import { Inject, Injectable } from '@angular/core';
 import { TRIPPIN_BASE_URL } from './app.config';
 import { Person, Trip } from './models/TrippinModel';
-import { Observable, catchError, firstValueFrom, throwError } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -48,6 +48,13 @@ export class TrippinService {
     const url = `${this.baseUrl}/People('${userName}')/Trips`;
     return this.httpClient
       .get<{ value: Trip[] }>(url, { params })
+      .pipe(catchError(this.handleError));
+  }
+
+  public addTrip(userName: string, trip: Trip): Observable<Trip> {
+    const url = `${this.baseUrl}/People('${userName}')/Trips`;
+    return this.httpClient
+      .post<Trip>(url, trip)
       .pipe(catchError(this.handleError));
   }
 }

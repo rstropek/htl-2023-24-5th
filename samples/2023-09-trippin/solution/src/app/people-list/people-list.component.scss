@@ -6,20 +6,6 @@ form {
   }
 }
 
-.people {
-  display: grid;
+.result-grid {
   grid-template-columns: repeat(5, 1fr);
-
-  div {
-    padding: 10px;
-  }
-
-  .header {
-    font-weight: bold;
-    display: contents;
-
-    div {
-      background-color: lightgray;
-    }
-  }
 }

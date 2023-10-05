@@ -2,3 +2,53 @@
 
 <a routerLink="/people">Back to people</a>
 
+<h3>Add Trip</h3>
+
+<form [formGroup]="tripForm">
+  <label for="name">Name:</label>
+  <input id="name" type="text" placeholder="Enter trip name here..." formControlName="name" />
+  <label for="budget">Budget:</label>
+  <input id="budget" type="number" placeholder="Enter buget for trip here..." formControlName="budget" />
+  <label for="description">Description:</label>
+  <input id="description" type="text" placeholder="Enter description here..." formControlName="description" />
+  <label for="tags">Tags:</label>
+  <input id="tags" type="text" placeholder="Enter tags here..." formControlName="tags" />
+  <label for="startsAt">Starts at:</label>
+  <input id="startsAt" type="date" formControlName="startsAt" />
+  <label for="endsAt">Ends at:</label>
+  <input id="endsAt" type="date" formControlName="endsAt" />
+  <div></div>
+  <button [disabled]="!tripForm.valid" (click)="addTrip()">Add Trip</button>
+</form>
+
+<h3>Trip List</h3>
+
+<ng-container *ngIf="{ trips: data$ | async, err: httpError$ | async } as vm">
+  <div *ngIf="!vm.err && vm.trips; else loading" class="result-grid">
+    <div class="header">
+      <div>ID</div>
+      <div>Name</div>
+      <div class="right">Budget</div>
+      <div>Description</div>
+      <div>Tags</div>
+      <div class="center">Start</div>
+      <div class="center">End</div>
+    </div>
+    <ng-container *ngFor="let p of vm.trips.value">
+      <div>{{ p.TripId }}</div>
+      <div>{{ p.Name }}</div>
+      <div class="right">{{ p.Budget | number }}</div>
+      <div>{{ p.Description }}</div>
+      <div>{{ p.Tags }}</div>
+      <div class="center">{{ p.StartsAt | date }}</div>
+      <div class="center">{{ p.EndsAt | date }}</div>
+    </ng-container>
+  </div>
+  <p *ngIf="vm.err" class="error">
+    {{ vm.err }}
+  </p>
+  <ng-template #loading>
+    <p *ngIf="!vm.err">Loading...</p>
+  </ng-template>
+</ng-container>
+

@@ -1,20 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TrippinService } from '../trippin.service';
-import {
-  Observable,
-  catchError,
-  debounceTime,
-  distinctUntilChanged,
-  of,
-  shareReplay,
-  startWith,
-  switchMap,
-  tap,
-} from 'rxjs';
-import { Person } from '../models/TrippinModel';
+import { switchMap } from 'rxjs';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { delayedSearch, extractError } from '../rxjsHelpers';
 
 @Component({
   selector: 'app-people-list',
@@ -23,25 +13,15 @@ import { RouterModule } from '@angular/router';
   templateUrl: './people-list.component.html',
   styleUrls: ['./people-list.component.scss'],
 })
-export class PeopleListComponent implements OnInit {
+export class PeopleListComponent {
   public nameFilter = new FormControl('');
-  public data$?: Observable<{ value: Person[] }>;
-  public httpError?: Error;
+
+  public data$? = this.nameFilter.valueChanges.pipe(
+    delayedSearch(),
+    switchMap((nameFilter: string | null) => this.trippin.getPeople(nameFilter ?? ''))
+  );
+
+  public httpError$? = this.data$?.pipe(extractError());
 
   constructor(private trippin: TrippinService) {}
-
-  ngOnInit() {
-    this.data$ = this.nameFilter.valueChanges.pipe(
-      tap(() => delete this.httpError),
-      startWith(''),
-      debounceTime(250),
-      distinctUntilChanged(),
-      switchMap((nameFilter) => this.trippin.getPeople(nameFilter ?? '')),
-      shareReplay(1),
-      catchError((err: Error) => {
-        this.httpError = err;
-        return of({ value: [] });
-      })
-    );
-  }
 }

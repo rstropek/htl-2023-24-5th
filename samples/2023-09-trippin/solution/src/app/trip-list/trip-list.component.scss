@@ -1,0 +1,32 @@
+.result-grid {
+  grid-template-columns: auto 2fr 1fr 4fr 2fr 2fr 2fr;
+  margin-top: 20px;
+
+  .right {
+    text-align: right;
+  }
+
+  .center {
+    text-align: center;
+  }
+}
+
+h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+form {
+  display: grid;
+  grid-template-columns: auto 1fr;
+
+  label {
+    margin-top: 5px;
+    margin-right: 3px;
+  }
+
+  input, button {
+    margin-top: 5px;
+    max-width: 350px;
+  }
+}
