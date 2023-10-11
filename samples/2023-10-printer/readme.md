@@ -10,6 +10,14 @@ You can find a prototype of the DB backend in the folder [_server_](./server). N
 
 You find documented sample API requests in [_requests.http_](./server/requests.http).
 
+Here is how you can run the backend locally (execute commands inside the _server_ folder):
+
+```bash
+npm install
+npx tsc
+node ./dist/app.js
+```
+
 ## Requirements
 
 * Implement a route with which students can search through existing reservations. They can enter a filter string (see also [_requests.http_](./server/requests.http)).
