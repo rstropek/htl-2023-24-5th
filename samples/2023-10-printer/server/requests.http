@@ -1,0 +1,83 @@
+@host=http://localhost:3000
+
+###
+# Create a printer
+POST {{host}}/printers
+Content-Type: application/json
+
+{
+    "inventoryNumber": "3DP01", 
+    "model": "Prusa MK3",
+    "year": 2021
+}
+
+### 
+# Get all printers
+GET {{host}}/printers
+
+###
+# Create a student
+POST {{host}}/students
+Content-Type: application/json
+
+{
+    "studentID": "HTLLEO20200023",
+    "firstName": "Tom",
+    "lastName": "Turbo"
+}
+
+###
+# Get all students
+GET {{host}}/students
+
+###
+# Reserve a printer
+POST {{host}}/reservations
+Content-Type: application/json
+
+{
+    "studentID": "HTLLEO20200023",
+    "inventoryNumber": "3DP01",
+    "fromDateTime": "2023-10-15T08:00:00.000Z",
+    "durationHours": 3
+}
+
+###
+# Invalid fromDateTime
+POST {{host}}/reservations
+Content-Type: application/json
+
+{
+    "studentID": "HTLLEO20200023",
+    "inventoryNumber": "3DP01",
+    "fromDateTime": "Oct 15th 2023",
+    "durationHours": 3
+}
+
+###
+# Invalid foreign key
+POST {{host}}/reservations
+Content-Type: application/json
+
+{
+    "studentID": "blablabla",
+    "inventoryNumber": "3DP01",
+    "fromDateTime": "2023-10-15T08:00:00.000Z",
+    "durationHours": 3
+}
+
+###
+# Get all reservations
+GET {{host}}/reservations
+
+###
+# Find a reservation
+GET {{host}}/reservations?name=Tom
+
+###
+# Look for a reservation that does not exist
+GET {{host}}/reservations?name=Jane
+
+###
+# Delete all data in the DB
+POST {{host}}/purge
