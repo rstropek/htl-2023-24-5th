@@ -34,3 +34,6 @@ node ./dist/app.js
 The API route `GET reservations` (e.g. `GET {{host}}/reservations?name=Tom&past=true`) also supports a flag `past`. By default, the route only returns future reservations. If the flag is set to `true`, the route returns all reservations.
 
 Enhance the search form to allow the user to search for past reservations as well. You can use a checkbox for this.
+
+If you need a hint how you can solve this challenge with RxJS,
+take a look at [this sample project](https://stackblitz.com/edit/stackblitz-starters-eabrpx?file=src%2Fmain.ts).
