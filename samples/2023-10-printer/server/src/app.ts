@@ -2,12 +2,14 @@ import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
 import sqlite3 from "sqlite3";
 import { StatusCodes } from "http-status-codes";
+import cors from 'cors';
 
 // Initialize express and SQLite database
 const app = express();
 const db = new sqlite3.Database("./data.db");
 
 app.use(bodyParser.json());
+app.use(cors())
 
 // Setup database tables
 db.serialize(() => {
