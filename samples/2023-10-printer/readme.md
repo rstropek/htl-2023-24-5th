@@ -28,3 +28,9 @@ node ./dist/app.js
   * Handle errors that happen when storing a reservation gracefully (e.g. unique constraint violation).
   * Printer and student must be selectable in a dropdown. The list of printers and students must be loaded from the backend.
   * Try to use a date picker control for the date (`<input type="datetime-local" ...>`).
+
+## Extra Challenge
+
+The API route `GET reservations` (e.g. `GET {{host}}/reservations?name=Tom&past=true`) also supports a flag `past`. By default, the route only returns future reservations. If the flag is set to `true`, the route returns all reservations.
+
+Enhance the search form to allow the user to search for past reservations as well. You can use a checkbox for this.

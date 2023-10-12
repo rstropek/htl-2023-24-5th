@@ -43,6 +43,18 @@ Content-Type: application/json
 }
 
 ###
+# Past printer reservation
+POST {{host}}/reservations
+Content-Type: application/json
+
+{
+    "studentID": "HTLLEO20200023",
+    "inventoryNumber": "3DP01",
+    "fromDateTime": "2023-09-23T08:00:00.000Z",
+    "durationHours": 3
+}
+
+###
 # Invalid fromDateTime
 POST {{host}}/reservations
 Content-Type: application/json
@@ -73,6 +85,10 @@ GET {{host}}/reservations
 ###
 # Find a reservation
 GET {{host}}/reservations?name=Tom
+
+###
+# Find a reservation (also in the past)
+GET {{host}}/reservations?name=Tom&past=true
 
 ###
 # Look for a reservation that does not exist
