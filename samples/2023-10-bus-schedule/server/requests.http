@@ -1,0 +1,48 @@
+@host=http://localhost:3000
+
+###
+# Get a list of stop names
+GET {{host}}/api/stops
+
+###
+# Get a list of lines
+GET {{host}}/api/lines
+
+###
+# Get bus plan for line 180, departing from stop "Library",
+# first possible bus after 6:25
+GET {{host}}/api/bus/180?from=Library&start=6.25
+
+###
+# Get bus plan for line 180, departing from stop "Stadium",
+# first possible bus after 5:00
+GET {{host}}/api/bus/180?from=Stadium&start=5
+
+###
+# Get bus plan for line 190, departing from stop "Harbor",
+# first possible bus after 22:00. Note: There is no such
+# bus after 22:00.
+GET {{host}}/api/bus/190?from=Harbor&start=22
+
+###
+# Get ticket price (4 stops)
+POST {{host}}/api/price
+Content-Type: application/json
+
+{
+    "line": "180",
+    "from": "Main Square",
+    "to": "Museum District"
+}
+
+###
+# Get ticket price (5 stops, with student rebate)
+POST {{host}}/api/price
+Content-Type: application/json
+
+{
+    "line": "180",
+    "from": "Main Square",
+    "to": "Central Park",
+    "rebate": "student"
+}
