@@ -1,0 +1,16 @@
+@host = http://localhost:5049
+
+###
+POST {{host}}/fill
+
+###
+GET {{host}}/users
+
+###
+GET {{host}}/users/11
+
+###
+GET {{host}}/todos
+
+###
+GET {{host}}/todos?q=qui&done=false
