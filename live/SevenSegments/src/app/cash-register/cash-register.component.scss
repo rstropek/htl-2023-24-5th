@@ -1,0 +1,48 @@
+.container {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: [products-start] 3fr [items-start] minmax(150px, 1fr) [end];
+  grid-template-rows: [total-start] auto [items-start] 1fr [end];
+}
+
+.products {
+  grid-column: products-start;
+  grid-row: total-start / span 2;
+  margin: 10px;
+  font-size: 10px;
+
+  .product {
+    width: 100px;
+    border: 1px solid black;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    display: inline-block;
+    text-align: center;
+    padding-bottom: 5px;
+
+    & img {
+      width: 100%;
+    }
+  }
+}
+
+.receipt {
+  font-size: 16px;
+  margin: 5px;
+  grid-column: items-start;
+  grid-row: items-start;
+  display: grid;
+  grid-template-columns: auto 50px;
+  align-content: start;
+}
+
+.total {
+  grid-column: items-start;
+  grid-row: total-start;
+  text-align: center;
+}
+
+.price {
+  text-align: right;
+}

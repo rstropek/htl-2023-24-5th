@@ -1,0 +1,13 @@
+polygon {
+  stroke: var(--ssd-separator-stroke);
+  stroke-width: var(--ssd-separator-width);
+
+  &.filled {
+    fill: var(--ssd-segment-fill);
+  }
+
+  &:not(.filled) {
+    fill: none;
+  }
+}
+

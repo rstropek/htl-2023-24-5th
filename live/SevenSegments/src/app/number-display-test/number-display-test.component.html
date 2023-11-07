@@ -1,0 +1,11 @@
+<h1>Number Display Test</h1>
+
+<form>
+  <label>Number to display:
+    <input type="number" [formControl]="numberInput" />
+  </label>
+</form>
+
+<app-regular-number [number]="(numberInput.valueChanges | async) ?? 0"></app-regular-number>
+
+<app-seven-segment-number [number]="(numberInput.valueChanges | async) ?? 0"></app-seven-segment-number>

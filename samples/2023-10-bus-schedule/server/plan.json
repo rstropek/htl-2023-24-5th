@@ -1,0 +1,68 @@
+{
+    "lines": {
+        "180": {
+            "stops": [
+                { "name": "Main Square", "travelTime": 0 },
+                { "name": "School", "travelTime": 2 },
+                { "name": "Library", "travelTime": 5 },
+                { "name": "Museum District", "travelTime": 9 },
+                { "name": "Central Park", "travelTime": 13 },
+                { "name": "Shopping Mall", "travelTime": 18 },
+                { "name": "University", "travelTime": 19 },
+                { "name": "Hospital", "travelTime": 22 },
+                { "name": "City Hall", "travelTime": 25 },
+                { "name": "Stadium", "travelTime": 30 },
+                { "name": "Concert Hall", "travelTime": 36 },
+                { "name": "Airport", "travelTime": 45 }
+            ],
+            "schedule": {
+                "start": 5.0,
+                "last": 22.0,
+                "every": 15
+            }
+        },
+        "190": {
+            "stops": [
+                { "name": "Main Square", "travelTime": 0 },
+                { "name": "Riverbank", "travelTime": 4 },
+                { "name": "Tech Park", "travelTime": 9 },
+                { "name": "Bakery Square", "travelTime": 15 },
+                { "name": "Fish Market", "travelTime": 20 },
+                { "name": "Cinema", "travelTime": 25 },
+                { "name": "Botanical Garden", "travelTime": 32 },
+                { "name": "Opera House", "travelTime": 38 },
+                { "name": "Old Town", "travelTime": 45 },
+                { "name": "Harbor", "travelTime": 52 },
+                { "name": "Airport", "travelTime": 60 }
+            ],
+            "schedule": {
+                "start": 7,
+                "last": 21,
+                "every": 30
+            }
+        },
+        "200": {
+            "stops": [
+                { "name": "Greenwood", "travelTime": 0 },
+                { "name": "Zoo", "travelTime": 7 },
+                { "name": "Lighthouse", "travelTime": 15 },
+                { "name": "Aquarium", "travelTime": 25 },
+                { "name": "Ferry Terminal", "travelTime": 35 }
+            ],
+            "schedule": {
+                "start": 9,
+                "last": 20,
+                "every": 30
+            }
+        }
+    },
+    "ticketPrices": {
+        "mini": 2.5,
+        "midi": 3.5,
+        "maxi": 5.0
+    },
+    "rebates": {
+        "student": 0.3,
+        "senior": 0.2
+    }
+}
