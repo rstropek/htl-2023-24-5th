@@ -14,3 +14,16 @@ GET {{host}}/todos
 
 ###
 GET {{host}}/todos?q=qui&done=false
+
+###
+GET {{host}}/todos/201
+
+###
+POST {{host}}/todos
+Content-Type: application/json
+
+{
+    "title": "Demo",
+    "userId": 11,
+    "tagIds": [11, 12, 13]
+}

@@ -68,6 +68,62 @@ app.MapGet("todos", (ApplicationDbContext dbContext,
     });
 });
 
+app.MapGet("/todos/{id}", async (ApplicationDbContext dbContext, int id) =>
+{
+    // Note that you can load related entities using the Include() method.
+    // This will result in a JOIN in the query.
+    var todo = await dbContext.Todos
+        .AsNoTracking()
+        .Include(t => t.Tags)
+        .Include(t => t.User)
+        .FirstOrDefaultAsync(u => u.Id == id);
+    if (todo is null)
+    {
+        return Results.NotFound();
+    }
+
+    return Results.Ok(new
+    {
+        todo.Id,
+        todo.Title,
+        todo.IsCompleted,
+        todo.UserId,
+        User = todo.User!.Name,
+        Tags = todo.Tags.Select(t => new { t.Id, t.Description })
+    });
+});
+
+app.MapPost("todos", async (ApplicationDbContext dbContext, AddTodoDto newTodo) =>
+{
+    // Ensure that given user ID exists
+    if (!await dbContext.Users.AnyAsync(u => u.Id == newTodo.UserId))
+    {
+        return Results.BadRequest($"Invalid user ID {newTodo.UserId}");
+    }
+
+    // Read the referenced tags from the DB
+    var tags = await dbContext.Tags.Where(t => newTodo.TagIds.Contains(t.Id)).ToListAsync();
+    var missingTags = newTodo.TagIds.Except(tags.Select(t => t.Id)).ToArray();
+    if (missingTags.Length > 0)
+    {
+        return Results.BadRequest($"Invalid tag IDs: {string.Join(", ", missingTags)}");
+    }
+
+    var todo = new Todo
+    {
+        Title = newTodo.Title,
+        IsCompleted = false,
+        UserId = newTodo.UserId,
+        Tags = tags
+    };
+
+    await dbContext.Todos.AddAsync(todo);
+    await dbContext.SaveChangesAsync();
+
+    return Results.Created($"/todos/{todo.Id}", null);
+});
+
+
 app.MapPost("fill", async (ApplicationDbContext dbContext) =>
 {
     // Note that this is how you can enclose multiple DB operations in a transaction:
@@ -121,3 +177,5 @@ app.MapPost("fill", async (ApplicationDbContext dbContext) =>
 });
 
 await app.RunAsync();
+
+public record AddTodoDto(string Title, int UserId, int[] TagIds);
