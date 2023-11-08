@@ -67,12 +67,4 @@ public class ApplicationDbContext : DbContext
     public DbSet<User> Users => Set<User>();
     public DbSet<Todo> Todos => Set<Todo>();
     public DbSet<Tag> Tags => Set<Tag>();
-
-    public async Task CleanDatabase()
-    {
-        // Note that this is how you can efficiently delete all rows from a table:
-        await Todos.ExecuteDeleteAsync();
-        await Tags.ExecuteDeleteAsync();
-        await Users.ExecuteDeleteAsync();
-    }
 }

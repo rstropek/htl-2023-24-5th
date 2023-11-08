@@ -7,7 +7,7 @@ POST {{host}}/fill
 GET {{host}}/users
 
 ###
-GET {{host}}/users/11
+GET {{host}}/users/1
 
 ###
 GET {{host}}/todos
@@ -16,14 +16,26 @@ GET {{host}}/todos
 GET {{host}}/todos?q=qui&done=false
 
 ###
-GET {{host}}/todos/201
+GET {{host}}/todos/1
 
 ###
+# @name insert
 POST {{host}}/todos
 Content-Type: application/json
 
 {
     "title": "Demo",
-    "userId": 11,
-    "tagIds": [11, 12, 13]
+    "userId": 1,
+    "tagIds": [1, 2, 3]
 }
+
+###
+PATCH {{host}}/todos/{{insert.response.body.id}}
+Content-Type: application/json
+
+{
+    "title": "Demo New"
+}
+
+###
+DELETE {{host}}/todos/{{insert.response.body.id}}
