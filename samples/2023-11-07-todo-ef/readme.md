@@ -108,3 +108,16 @@ dotnet ef migrations add ...
 ```bash
 dotnet ef database update
 ```
+
+## 10 Golden Rules
+
+1. ALWAYS use async/await when interacting with the database.
+2. Try NEVER to read too much data from the database. Reading lots of data from the DB and then filtering it in memory is a bad idea 🤮!
+3. Use `AsNoTracking` if you do not plan to write back the data to the database.
+4. Use `Id` for primary keys.
+5. Add id and reference properties for foreign keys.
+6. Use data annotations (e.g. `[MaxLength(100)]`).
+7. Use `IQueryable` instead of `IEnumerable` when working with the DB.
+8. Return DTOs from ASP.NET Core handler methods. AVOID returning DB entities directly (only for very simple cases).
+9. Consider returning queries from ASP.NET Core handler methods. No need for e.g. `ToArrayAsync`.
+10. Use transaction when multiple DB operations need to be executed atomically.

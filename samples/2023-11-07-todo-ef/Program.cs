@@ -8,7 +8,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddScoped<IDataAccess, DataAccess>();
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
@@ -26,9 +25,9 @@ if (app.Environment.IsDevelopment())
 // Instead, you should return a DTO (data transfer object) that contains
 // only the data that is needed by the client. However, IF you app IS
 // SIMPLE enough, you can return DB results directly from the handler.
-app.MapGet("/users", (ApplicationDbContext dbContext) => dbContext.Users);
+app.MapGet("/users", (ApplicationDbContext dc) => dc.Users);
 
-app.MapGet("/users/{id}", async (IDataAccess da, int id) =>
+app.MapGet("/users/{id}", async (ApplicationDbContext dc, int id) =>
 {
     // Note that you SHOULD use .AsNoTracking() if you read data from the DB
     // in a handler method and you DON'T plan to update the data. This will
@@ -36,7 +35,7 @@ app.MapGet("/users/{id}", async (IDataAccess da, int id) =>
 
     // Note that you MUST ALWAYS use async/await when interacting with the DB.
     // NEVER use the blocking methods (e.g. FirstOrDefault()) without async/await!
-    var user = await da.GetUserById(id).AsNoTracking().FirstOrDefaultAsync();
+    var user = await dc.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id);
     if (user is null)
     {
         return Results.NotFound();
@@ -47,13 +46,14 @@ app.MapGet("/users/{id}", async (IDataAccess da, int id) =>
     return Results.Ok(user);
 });
 
-app.MapGet("todos", (IDataAccess da,
+app.MapGet("todos", (ApplicationDbContext dc,
     [FromQuery(Name = "q")] string? titleFilter,
     [FromQuery(Name = "done")] bool? doneFilter,
     [FromQuery()] int? skip,
     [FromQuery()] int? take) =>
 {
-    var query = da.GetFilteredTodos(new(titleFilter, doneFilter, skip, take)).AsNoTracking();
+    var query = dc.Todos.AsNoTracking()
+        .GetFilteredTodos(new(titleFilter, doneFilter, skip, take));
 
     // As mentioned before, it is allowed to return a query from a handler method.
     // Note that you MUST NOT call ToArray() or ToList() on the query. If you need
@@ -62,13 +62,14 @@ app.MapGet("todos", (IDataAccess da,
     return query.SelectSummary();
 });
 
-app.MapGet("/todos/{id}", async (IDataAccess da, int id) =>
+app.MapGet("/todos/{id}", async (ApplicationDbContext dc, int id) =>
 {
     // Note that you can load related entities using the Include() method.
     // This will result in a JOIN in the query.
-    var todo = await da.GetTodoById(id)
+    var todo = await dc.Todos
         .AsNoTracking()
         .SelectSummary()
+        .Where(t => t.Id == id)
         .FirstOrDefaultAsync();
     if (todo is null)
     {
@@ -78,25 +79,35 @@ app.MapGet("/todos/{id}", async (IDataAccess da, int id) =>
     return Results.Ok(todo);
 });
 
-app.MapPost("todos", async (IDataAccess da, AddTodoDto newTodo) =>
+app.MapPost("todos", async (ApplicationDbContext dc, AddTodoDto newTodo) =>
 {
     // Ensure that given user ID exists. Note that we MUST NOT USE
     // AsNoTracking() here because the user is involved in an insert
     // operation later (as a referenced object).
-    var user = await da.GetUserById(newTodo.UserId).FirstOrDefaultAsync();
+    var user = await dc.Users.FirstOrDefaultAsync(u => u.Id == newTodo.UserId);
     if (user is null)
     {
         return Results.BadRequest($"Invalid user ID {newTodo.UserId}");
     }
 
-    // Read the referenced tags from the DB
-    var tags = await da.GetTagsByIds(newTodo.TagIds).ToListAsync();
-    var missingTags = newTodo.TagIds.Except(tags.Select(t => t.Id)).ToArray();
-    if (missingTags.Length > 0)
-    {
-        return Results.BadRequest($"Invalid tag IDs: {string.Join(", ", missingTags)}");
-    }
+    // Read the referenced tags from the DB.
+    var tags = await dc.Tags
+        .Where(t => newTodo.Tags.Contains(t.Description))
+        .Distinct()
+        .ToListAsync();
 
+    // Create new tags for the tags that don't exist in the DB yet.
+    // Note that we do NOT need to insert the new tags manually in the DB.
+    // They will be referenced by the new todo item and therefore inserted
+    // automatically.
+    // Note that the following LINQ statement does NOT access the DB.
+    // It is executed in-memory.
+    var newTags = newTodo.Tags
+        .Except(tags.Select(t => t.Description))
+        .Select(t => new Tag { Description = t });
+    tags.AddRange(newTags);
+
+    // Construct the new todo item.
     var todo = new Todo
     {
         Title = newTodo.Title,
@@ -105,19 +116,24 @@ app.MapPost("todos", async (IDataAccess da, AddTodoDto newTodo) =>
         Tags = tags
     };
 
-    await da.Todos.AddAsync(todo);
-    await da.SaveChangesAsync();
+    // Add the todo item and save it to the DB.
+    await dc.Todos.AddAsync(todo);
+
+    // You MUST, MUST, MUST call SaveChangesAsync() after adding, updating,
+    // or deleting rows in the DB. Otherwise, the changes will NOT be persisted.
+    await dc.SaveChangesAsync();
 
     return Results.Created($"/todos/{todo.Id}", todo.ToSummary());
 });
 
-app.MapPatch("/todos/{id}", async (IDataAccess da, int id, TodoPatchDto patch) =>
+// Note that for patching, we use a record in which all updatable properties
+// are nullable. This way, we can easily check which properties were updated
+// by the client.
+app.MapPatch("/todos/{id}", async (ApplicationDbContext dc, int id, TodoPatchDto patch) =>
 {
-    // Note how we use the .Include() method to load the related entities.
-    var todo = await da.GetTodoById(id)
-        .Include(t => t.User)
-        .Include(t => t.Tags)
-        .FirstOrDefaultAsync();
+    // Again, we do NOT use AsNoTracking() here because we want to update
+    // the todo item later.
+    var todo = await dc.Todos.FirstOrDefaultAsync(t => t.Id == id);
     if (todo is null)
     {
         return Results.NotFound();
@@ -126,33 +142,40 @@ app.MapPatch("/todos/{id}", async (IDataAccess da, int id, TodoPatchDto patch) =
     if (patch.Title is not null) { todo.Title = patch.Title; }
     if (patch.IsCompleted is not null) { todo.IsCompleted = patch.IsCompleted.Value; }
 
-    await da.SaveChangesAsync();
+    await dc.SaveChangesAsync();
+
+    // Note how we can load referenced records from the DB.
+    await dc.Entry(todo).Reference(t => t.User).LoadAsync();
+    await dc.Entry(todo).Collection(t => t.Tags).LoadAsync();
 
     return Results.Ok(todo.ToSummary());
 });
 
-app.MapDelete("/todos/{id}", async (IDataAccess da, int id) =>
+app.MapDelete("/todos/{id}", async (ApplicationDbContext dc, int id) =>
 {
-    var todo = await da.GetTodoById(id).FirstOrDefaultAsync();
+    var todo = await dc.Todos.FirstOrDefaultAsync(t => t.Id == id);
     if (todo is null)
     {
         return Results.NotFound();
     }
 
-    da.Todos.Remove(todo);
-    await da.SaveChangesAsync();
+    dc.Todos.Remove(todo);
+    await dc.SaveChangesAsync();
 
     return Results.NoContent();
 });
 
-app.MapPost("fill", async (IDataAccess da) =>
+app.MapPost("fill", async (ApplicationDbContext dc) =>
 {
     // Note that this is how you can enclose multiple DB operations in a transaction:
-    using var transaction = await da.Database.BeginTransactionAsync();
+    using var transaction = await dc.Database.BeginTransactionAsync();
 
     try
     {
-        await da.CleanDatabase();
+        // Note that this is how you can efficiently delete all rows from a table:
+        await dc.Todos.ExecuteDeleteAsync();
+        await dc.Tags.ExecuteDeleteAsync();
+        await dc.Users.ExecuteDeleteAsync();
 
         // Note that we use the Bogus library to generate fake data.
         // Very useful for testing purposes!
@@ -179,26 +202,51 @@ app.MapPost("fill", async (IDataAccess da) =>
             .Generate(100);
 
         // Note that this is how you can efficiently insert multiple rows into a DB table:
-        await da.Todos.AddRangeAsync(todos);
+        await dc.Todos.AddRangeAsync(todos);
 
         // Note that you MUST ALWAYS call SaveChangesAsync() after adding, updating,
         // or deleting rows in the DB. Otherwise, the changes will NOT be persisted.
-        await da.SaveChangesAsync();
+        await dc.SaveChangesAsync();
 
         // If we reach this point, all DB operations were successful and we can
         // commit the transaction.
-        await da.Database.CommitTransactionAsync();
+        await dc.Database.CommitTransactionAsync();
     }
     catch
     {
         // If an exception occurs, we need to roll back the transaction.
-        await da.Database.RollbackTransactionAsync();
+        await dc.Database.RollbackTransactionAsync();
         throw;
     }
 });
 
+app.MapGet("tags/{tag}/todos", (ApplicationDbContext dc, string? tag) =>
+{
+    // Note that slightly more advanced query. It starts by filtering the tags.
+    // Then, it uses SelectMany() to get all todos that are linked to the filtered tag.
+    return dc.Tags
+        .AsNoTracking()
+        .Where(t => t.Description == tag)
+        .SelectMany(t => t.Todos)
+        .SelectSummary();
+});
+
+app.MapGet("tags/statistics", (ApplicationDbContext dc) =>
+{
+    // This slightly more advanced query shows how to aggregate values (counting,
+    // summing, etc.). In this case, we calculate the number of todos in a subquery.
+    return dc.Tags
+        .AsNoTracking()
+        .Select(t => new
+        {
+            Tag = t.Description,
+            TotalTodos = t.Todos.Count,
+            OpenTodos = t.Todos.Count(t => !t.IsCompleted),
+            ClosedTodos = t.Todos.Count(t => t.IsCompleted)
+        });
+});
 await app.RunAsync();
 
-public record AddTodoDto(string Title, int UserId, int[] TagIds);
+public record AddTodoDto(string Title, int UserId, string[] Tags);
 
 public record TodoPatchDto(string? Title, bool? IsCompleted);
