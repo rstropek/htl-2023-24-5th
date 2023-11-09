@@ -83,7 +83,7 @@ Here is one for SQL Server Express LocalDB.
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=(localdb)\MSSQLLocalDB;Database=TodoEf;Integrated Security=true"
+    "DefaultConnection": "Server=(localdb)\\MSSQLLocalDB;Database=TodoEf;Integrated Security=true"
   },
   ...
 }
