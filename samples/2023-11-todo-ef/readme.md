@@ -28,7 +28,7 @@ dotnet add package Microsoft.EntityFrameworkCore.SqlServer
 If you want to run SQL Server locally on Linux, you can use Docker.
 
 ```bash
-docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=MyStr0ngPazzword" -e "MSSQL_PID=Express" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2019-latest
+docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=MyStr0ngPazzword" -e "MSSQL_PID=Express" -p 127.0.0.1:1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest
 ```
 
 ## SQL Server (Windows)
@@ -83,7 +83,7 @@ Here is one for SQL Server Express LocalDB.
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=(localdb)\MSSQLLocalDB;Database=TodoEf;Integrated Security=true"
+    "DefaultConnection": "Server=(localdb)\\MSSQLLocalDB;Database=TodoEf;Integrated Security=true"
   },
   ...
 }
