@@ -1,0 +1,17 @@
+POST http://localhost:5093/campaigns
+Content-Type: application/json
+
+{
+    "name": "Weihnachten 2023"
+}
+
+###
+PATCH http://localhost:5093/campaigns/1
+Content-Type: application/json
+
+{
+    "name": "Christmas 2023"
+}
+
+###
+DELETE http://localhost:5093/campaigns/1
