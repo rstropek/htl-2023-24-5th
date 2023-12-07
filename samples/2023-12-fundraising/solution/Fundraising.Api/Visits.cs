@@ -10,6 +10,7 @@ static partial class VisitsApi
     {
         endpoints.MapGet("/campaigns/{id}/visits", GetVisits);
         endpoints.MapPost("/campaigns/{id}/visits", AddVisit);
+        endpoints.MapPatch("/visits/{id}", PatchVisit);
 
         return endpoints;
     }
@@ -80,6 +81,30 @@ static partial class VisitsApi
         });
     }
 
+    private static async Task<IResult> PatchVisit(ApplicationDbContext dbContext, int id, PatchVisitDto visit)
+    {
+        if (!visit.SuccessfullyVisited)
+        {
+            return Results.BadRequest();
+        }
+
+        await dbContext.Visits
+            .Where(v => v.Id == id)
+            .ExecuteUpdateAsync(v => v.SetProperty(x => x.SuccessfullyVisited, visit.SuccessfullyVisited));
+    	/*
+        var visitToUpdate = await dbContext.Visits.FindAsync(id);
+        if (visitToUpdate == null)
+        {
+            return Results.NotFound();
+        }
+
+        visitToUpdate.SuccessfullyVisited = visit.SuccessfullyVisited;
+        */
+        await dbContext.SaveChangesAsync();
+
+        return Results.Ok();
+    }
+
     [GeneratedRegex(@"^[1-9]\d*\w?$")]
     private static partial Regex HousenumberRegex();
 }
@@ -101,5 +126,9 @@ record HouseholdDto(
 record VisitDto(
     int? HouseholdId,
     HouseholdDto? Household,
+    bool SuccessfullyVisited
+);
+
+record PatchVisitDto(
     bool SuccessfullyVisited
 );

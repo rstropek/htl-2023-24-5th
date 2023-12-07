@@ -38,3 +38,11 @@ Content-Type: application/json
     "householdId": 3,
     "successfullyVisited": true
 }
+
+###
+PATCH http://localhost:5093/visits/1
+Content-Type: application/json
+
+{
+    "successfullyVisited": true
+}
