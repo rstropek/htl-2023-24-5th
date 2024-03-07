@@ -16,7 +16,7 @@ Technically, the project is a WPF application with an underlying SQL Server data
 
 ## Database
 
-To save you some time, the data model is already defined in [_Model.cs_](./Starter/TaxiManager/Data/Model.cs). The project also has all necessary NuGet packages installed. A rudimentary database context is available in [DataContext.cs_](./Starter/Data/DataContext.cs). You have to complete the methods in the data context that currently throw a `NotImplementedException`. The requirements for the methods are described in the code comments.
+To save you some time, the data model is already defined in [_Model.cs_](./Starter/TaxiManager/Data/Model.cs). The project also has all necessary NuGet packages installed. A rudimentary database context is available in [_DataContext.cs_](./Starter/Data/DataContext.cs). You have to complete the methods in the data context that currently throw a `NotImplementedException`. The requirements for the methods are described in the code comments.
 
 You can fill the database with demo data using the [_DemoDataCreationScript.sql_](./DemoDataCreationScript.sql).
 
