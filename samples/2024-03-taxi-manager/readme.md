@@ -16,19 +16,19 @@ Technically, the project is a WPF application with an underlying SQL Server data
 
 ## Database
 
-To save you some time, the data model is already defined in [_Model.cs_](./Starter/Data/Model.cs). The project also has all necessary NuGet packages installed. A rudimentary database context is available in [DataContext.cs_](./Starter/Data/DataContext.cs). You have to complete the methods in the data context that currently throw a `NotImplementedException`. The requirements for the methods are described in the code comments.
+To save you some time, the data model is already defined in [_Model.cs_](./Starter/TaxiManager/Data/Model.cs). The project also has all necessary NuGet packages installed. A rudimentary database context is available in [DataContext.cs_](./Starter/Data/DataContext.cs). You have to complete the methods in the data context that currently throw a `NotImplementedException`. The requirements for the methods are described in the code comments.
 
 You can fill the database with demo data using the [_DemoDataCreationScript.sql_](./DemoDataCreationScript.sql).
 
-Don't forget to adjust the connection string in [_appsettings.json_](./Starter/appsettings.json) to match your local SQL Server instance.
+Don't forget to adjust the connection string in [_appsettings.json_](./Starter/TaxiManager/appsettings.json) to match your local SQL Server instance.
 
 ## WPF
 
-The structure of the WPF application is already set up. The main window is in [_MainWindow.xaml_](./Starter/MainWindow.xaml). The view model is in [_MainWindowViewModel.cs_](./Starter/MainWindowViewModel.cs). The view model is already connected to the view using the `DataContext` property.
+The structure of the WPF application is already set up. The main window is in [_MainWindow.xaml_](./Starter/TaxiManager/MainWindow.xaml). The view model is in [_MainWindowViewModel.cs_](./Starter/TaxiManager/MainWindowViewModel.cs). The view model is already connected to the view using the `DataContext` property.
 
-Complete the [_MainWindowViewModel.cs_](./Starter/MainWindowViewModel.cs) as specified in the code comments.
+Complete the [_MainWindowViewModel.cs_](./Starter/TaxiManager/MainWindowViewModel.cs) as specified in the code comments.
 
-Add the necessary XAML data bindings to the [_MainWindow.xaml_](./Starter/MainWindow.xaml) as specified in the code comments.
+Add the necessary XAML data bindings to the [_MainWindow.xaml_](./Starter/TaxiManager/MainWindow.xaml) as specified in the code comments.
 
 ## Unit Tests
 
