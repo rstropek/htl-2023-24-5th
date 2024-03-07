@@ -8,7 +8,7 @@ namespace TaxiManager
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        public MainWindowViewModel()
+        public MainWindowViewModel(TaxiDataContext dbContext)
         {
             // Use dependency injection to get the database context
             // Use delegate commands StartRideCommand and EndRideCommand to handle the start and end ride buttons

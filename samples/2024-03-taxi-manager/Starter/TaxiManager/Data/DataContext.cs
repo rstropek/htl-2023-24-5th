@@ -33,7 +33,7 @@ public class TaxiDataContext(DbContextOptions<TaxiDataContext> options) : DbCont
     /// <param name="newTaxi">Taxi data that should be added</param>
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="newTaxi"/> is null</exception>
     /// <returns>ID of the newly added taxi as created by the database</returns>
-    public async Task<int> AddTaxiAsync(Taxi newTaxi)
+    public async Task<int> AddTaxiAsync(Taxi? newTaxi)
     {
         throw new NotImplementedException();
     }
@@ -44,7 +44,7 @@ public class TaxiDataContext(DbContextOptions<TaxiDataContext> options) : DbCont
     /// <param name="newDriver">Driver data that should be added</param>
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="newDriver"/> is null</exception>
     /// <returns>ID of the newly added driver as created by the database</returns>
-    public async Task<int> AddDriverAsync(Driver newDriver)
+    public async Task<int> AddDriverAsync(Driver? newDriver)
     {
         throw new NotImplementedException();
 
@@ -62,7 +62,7 @@ public class TaxiDataContext(DbContextOptions<TaxiDataContext> options) : DbCont
     /// <see cref="TaxiRide.End"/> and <see cref="TaxiRide.Charge"/> are null. These values will be set
     /// when the taxi ride will be ended (see <see cref="EndRideAsync"/>.
     /// </remarks>
-    public async Task<int> StartRideAsync(Taxi taxi, Driver driver)
+    public async Task<int> StartRideAsync(Taxi? taxi, Driver? driver)
     {
         throw new NotImplementedException();
 

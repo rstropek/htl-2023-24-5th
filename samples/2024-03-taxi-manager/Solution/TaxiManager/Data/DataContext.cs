@@ -26,7 +26,7 @@ public class TaxiDataContext(DbContextOptions<TaxiDataContext> options) : DbCont
         await Rides.ExecuteDeleteAsync();
     }
 
-    public async Task<int> AddTaxiAsync(Taxi newTaxi)
+    public async Task<int> AddTaxiAsync(Taxi? newTaxi)
     {
         ArgumentNullException.ThrowIfNull(newTaxi);
 
@@ -35,7 +35,7 @@ public class TaxiDataContext(DbContextOptions<TaxiDataContext> options) : DbCont
         return newTaxi.ID;
     }
 
-    public async Task<int> AddDriverAsync(Driver newDriver)
+    public async Task<int> AddDriverAsync(Driver? newDriver)
     {
         ArgumentNullException.ThrowIfNull(newDriver);
 
@@ -44,7 +44,7 @@ public class TaxiDataContext(DbContextOptions<TaxiDataContext> options) : DbCont
         return newDriver.ID;
     }
 
-    public async Task<int> StartRideAsync(Taxi taxi, Driver driver)
+    public async Task<int> StartRideAsync(Taxi? taxi, Driver? driver)
     {
         ArgumentNullException.ThrowIfNull(taxi);
         ArgumentNullException.ThrowIfNull(driver);
