@@ -112,10 +112,7 @@
                 <TextBox Grid.Column="1" />
                 <!-- TODO: The following button can only be clicked if the previous text box contains a value > 0 and < 5 -->
                 <!-- 
-                    TODO: If the user clicks the button, the application must choose the first row of seats that has enough seats
-                    for the given number of tickets. The seats must be adjacent to each other. If no such row exists, display an
-                    alert (`MessageBox.Show`) with an error message. If such a row exists, the seats must be selected as if the user
-                    would have clicked on them manually.
+                    TODO: Implement seat selection. See readme.md for details.
                 -->
                 <Button Grid.Column="3" >Pick best seats</Button>
             </Grid>
