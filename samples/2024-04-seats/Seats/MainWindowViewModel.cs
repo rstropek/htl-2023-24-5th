@@ -59,7 +59,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
         // TODO: Add the necessary logic to determine whether the seat can be clicked.
         // The seat (regular or wheelchair) can be clicked if it is not already occupied.
-        throw new NotImplementedException();
+        return true; // Remove this line when you implement the real logic.
     }
 
     private void OnSeatClick(object? obj)
