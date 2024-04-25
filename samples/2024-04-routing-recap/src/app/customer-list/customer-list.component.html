@@ -1,0 +1,21 @@
+<h2>Customers</h2>
+
+<table>
+  <tr>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Company</th>
+    <th>Details</th>
+  </tr>
+  @for(cust of customers.customers; track cust.lastName) {
+    <tr>
+      <td>{{cust.firstName}}</td>
+      <td>{{cust.lastName}}</td>
+      <td>{{cust.company}}</td>
+      <td>
+        <a [routerLink]="'/customers/' + cust.lastName">Details</a>&nbsp;
+        <a [routerLink]="'/customers-with-input/' + cust.lastName">Details (with inputs)</a>
+      </td>
+    </tr>
+  }
+</table>

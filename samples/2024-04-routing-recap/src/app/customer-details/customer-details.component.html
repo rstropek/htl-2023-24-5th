@@ -1,0 +1,20 @@
+<h2>Customer Details</h2>
+
+<table>
+  <tr>
+    <th>First Name:</th>
+    <td>{{customer.firstName}}</td>
+  </tr>
+  <tr>
+    <th>Last Name:</th>
+    <td>{{customer.lastName}}</td>
+  </tr>
+  <tr>
+    <th>Company:</th>
+    <td>{{customer.company}}</td>
+  </tr>
+
+  <a routerLink="/customers">Back to Customers</a><br/>
+  <button (click)="onBack()">Back to Customers</button>
+
+</table>
