@@ -105,5 +105,5 @@ The following data model has been designed based on the business rules described
 
 1. [Logic and Unit testing](part-1-logic-testing)
 1. [Logic and Unit testing](part-2-logic-testing)
-3. [WPF](part-3-wpf)
-4. [Web APIs and Angular](part-4-web)
+3. [Web APIs and Angular](part-3-web)
+4. [WPF](part-4-wpf)
