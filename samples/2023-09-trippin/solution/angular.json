@@ -90,10 +90,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "trippin:build:production"
+              "buildTarget": "trippin:build:production"
             },
             "development": {
-              "browserTarget": "trippin:build:development"
+              "buildTarget": "trippin:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -101,7 +101,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "trippin:build"
+            "buildTarget": "trippin:build"
           }
         },
         "test": {
