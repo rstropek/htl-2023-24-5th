@@ -90,10 +90,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "SeventSegments:build:production"
+              "buildTarget": "SeventSegments:build:production"
             },
             "development": {
-              "browserTarget": "SeventSegments:build:development"
+              "buildTarget": "SeventSegments:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -101,7 +101,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "SeventSegments:build"
+            "buildTarget": "SeventSegments:build"
           }
         },
         "test": {
